@@ -2,6 +2,8 @@
 """app.py - グラデーションモダンデザインの企業文化マッチングアプリ (Hugging Face用に最適化)"""
 
 import pandas as pd
+import zipfile
+import io
 import ast
 import numpy as np
 import gradio as gr
@@ -30,31 +32,22 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 
 # 埋め込みデータ読み込み処理
 try:
-    csv_path = "embedding_data.csv"
-    logger.info(f"Loading embedding data from: {csv_path}")
-    
-    if os.path.exists(csv_path):
-        df = pd.read_csv(csv_path)
-        logger.info(f"CSV loaded with {len(df)} rows")
-        df["embedding"] = df["embedding"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+    # まずZIPファイルを試す
+    if os.path.exists("embedding_data.zip"):
+        logger.info("Loading from ZIP file")
+        with zipfile.ZipFile("embedding_data.zip", 'r') as zip_ref:
+            with zip_ref.open("embedding_data.csv") as csvfile:
+                df = pd.read_csv(io.TextIOWrapper(csvfile, encoding='utf-8'))
+    # 通常のCSVファイルも試す
+    elif os.path.exists("embedding_data.csv"):
+        logger.info("Loading from CSV file")
+        df = pd.read_csv("embedding_data.csv")
     else:
-        logger.error(f"File not found: {csv_path}")
-        # サンプルデータを作成
-        sample_data = []
-        companies = ["テックイノベーション株式会社", "グローバルソリューションズ", "フューチャークリエイト"]
-        periods = ["初期", "中期", "最近"]
-        
-        for company in companies:
-            for period in periods:
-                embedding = [np.random.random() * 0.1 for _ in range(1536)]
-                sample_data.append({
-                    "company": company,
-                    "period": period,
-                    "embedding": embedding
-                })
-        
-        df = pd.DataFrame(sample_data)
-        logger.info("Created sample data")
+        raise FileNotFoundError("No embedding data file found")
+    
+    logger.info(f"CSV loaded with {len(df)} rows")
+    df["embedding"] = df["embedding"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+    
 except Exception as e:
     logger.error(f"Error loading data: {str(e)}")
     logger.error(traceback.format_exc())
