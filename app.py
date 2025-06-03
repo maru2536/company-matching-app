@@ -705,10 +705,12 @@ with gr.Accordion("使用上の注意", open=False, elem_classes="footer"):
 
 # アプリ起動
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 7860))  # Railway用ポート設定
+    port = int(os.environ.get("PORT", 7860))
     demo.launch(
         server_name="0.0.0.0",
         server_port=port,
         debug=False,
-        share=False
+        share=False,
+        show_error=True,
+        show_tips=False
     )
