@@ -30,9 +30,26 @@ logger.info(f"Directory contents: {os.listdir('.')}")
 
 # 環境変数からAPIキーを取得（Render用）
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+logger.info(f"OpenAI API Key present: {bool(OPENAI_API_KEY)}")
 
 # 友人の会社のサイトURL
 FRIEND_BASE_URL = "https://friend-company.co.jp/result/receive"
+
+# OpenAI クライアントを安全に初期化
+def get_openai_client():
+    """OpenAI クライアントを安全に取得"""
+    try:
+        if not OPENAI_API_KEY:
+            logger.warning("OpenAI API key not found")
+            return None
+        
+        # シンプルな初期化（proxiesなどのパラメータを除く）
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        logger.info("OpenAI client initialized successfully")
+        return client
+    except Exception as e:
+        logger.error(f"Failed to initialize OpenAI client: {str(e)}")
+        return None
 
 # 埋め込みデータ読み込み処理（ZIPファイル対応）
 def load_embedding_data():
@@ -99,20 +116,26 @@ def make_friend_url(analysis_result: dict) -> str:
 
 def classify_values(inputs, model="gpt-3.5-turbo"):
     """価値観を分析し分類"""
-    if not OPENAI_API_KEY:
-        return """
-        1. 自由度重視ワークスタイルタイプ
-           自分の裁量で働き方を決められる環境を好みます。成果が出ていれば、どのように仕事を進めるかは自由に選びたいと考えています。
-        
-        2. 成長志向アチーバータイプ
-           企業の急速な成長とともに自己のスキルアップも目指しています。変化を楽しむことができ、常に進化を求める環境で活躍したいと思っています。
-        
-        3. 独立自由プロフェッショナルタイプ
-           経済的な自立を重視し、場所を選ばずに働ける自由なスタイルを望んでいます。生活のためだけでなく、自己実現を目指す働き方を求めています。
-        """
+    logger.info("Starting classify_values")
+    
+    # フォールバック回答を先に定義
+    fallback_response = """
+1. 自由度重視ワークスタイルタイプ
+   自分の裁量で働き方を決められる環境を好みます。成果が出ていれば、どのように仕事を進めるかは自由に選びたいと考えています。
+
+2. 成長志向アチーバータイプ
+   企業の急速な成長とともに自己のスキルアップも目指しています。変化を楽しむことができ、常に進化を求める環境で活躍したいと思っています。
+
+3. 独立自由プロフェッショナルタイプ
+   経済的な自立を重視し、場所を選ばずに働ける自由なスタイルを望んでいます。生活のためだけでなく、自己実現を目指す働き方を求めています。
+    """
     
     try:
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        client = get_openai_client()
+        if not client:
+            logger.warning("OpenAI client not available, using fallback")
+            return fallback_response
+        
         prompt = f"""
         以下の回答から、ユーザーの価値観を分析し、3つの明確なタイプに分類してください。
         タイプ名は親しみやすく印象的なラベルにしてください（例： 柔軟ワーク志向タイプ）。
@@ -135,40 +158,41 @@ def classify_values(inputs, model="gpt-3.5-turbo"):
         価値観: {inputs}
         """
         
-        res = client.chat.completions.create(
+        response = client.chat.completions.create(
             model=model, 
             messages=[{"role":"user","content":prompt}],
-            temperature=0.7
+            temperature=0.7,
+            max_tokens=1000
         )
-        return res.choices[0].message.content
+        
+        result = response.choices[0].message.content
+        logger.info("classify_values completed successfully")
+        return result
+        
     except Exception as e:
         logger.error(f"Error in classify_values: {str(e)}")
-        return f"""
-        1. 自由度重視ワークスタイルタイプ
-           自分の裁量で働き方を決められる環境を好みます。成果が出ていれば、どのように仕事を進めるかは自由に選びたいと考えています。
-        
-        2. 成長志向アチーバータイプ
-           企業の急速な成長とともに自己のスキルアップも目指しています。変化を楽しむことができ、常に進化を求める環境で活躍したいと思っています。
-        
-        3. 独立自由プロフェッショナルタイプ
-           経済的な自立を重視し、場所を選ばずに働ける自由なスタイルを望んでいます。生活のためだけでなく、自己実現を目指す働き方を求めています。
-        """
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return fallback_response
 
 def compute_top3(summary, df):
     """企業とのマッチング計算"""
+    logger.info("Starting compute_top3")
+    
+    # フォールバックデータ
+    fallback_data = [
+        {"会社名": "テックイノベーション株式会社", "初期": 72.3, "中期": 78.5, "最近": 85.7, 
+         "文化特性": {"革新性": 85, "安定性": 70, "成長機会": 90, "環境": 75, "報酬": 80}},
+        {"会社名": "グローバルソリューションズ", "初期": 68.1, "中期": 72.4, "最近": 79.8,
+         "文化特性": {"革新性": 75, "安定性": 85, "成長機会": 70, "環境": 65, "報酬": 90}},
+        {"会社名": "フューチャークリエイト", "初期": 65.7, "中期": 70.2, "最近": 76.4,
+         "文化特性": {"革新性": 90, "安定性": 60, "成長機会": 85, "環境": 80, "報酬": 75}}
+    ]
+    
     try:
-        # APIキーがない場合はフォールバックデータを返す
-        if not OPENAI_API_KEY:
-            return [
-                {"会社名": "テックイノベーション株式会社", "初期": 72.3, "中期": 78.5, "最近": 85.7, 
-                 "文化特性": {"革新性": 85, "安定性": 70, "成長機会": 90, "環境": 75, "報酬": 80}},
-                {"会社名": "グローバルソリューションズ", "初期": 68.1, "中期": 72.4, "最近": 79.8,
-                 "文化特性": {"革新性": 75, "安定性": 85, "成長機会": 70, "環境": 65, "報酬": 90}},
-                {"会社名": "フューチャークリエイト", "初期": 65.7, "中期": 70.2, "最近": 76.4,
-                 "文化特性": {"革新性": 90, "安定性": 60, "成長機会": 85, "環境": 80, "報酬": 75}}
-            ]
-        
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        client = get_openai_client()
+        if not client:
+            logger.warning("OpenAI client not available, using fallback data")
+            return fallback_data
         
         # ユーザーベクトル取得
         user_vecs = []
@@ -176,9 +200,13 @@ def compute_top3(summary, df):
             if not line.strip():
                 continue
             try:
-                r = client.embeddings.create(input=line, model="text-embedding-ada-002")
-                user_vecs.append(np.array(r.data[0].embedding))
-            except:
+                response = client.embeddings.create(
+                    input=line, 
+                    model="text-embedding-ada-002"
+                )
+                user_vecs.append(np.array(response.data[0].embedding))
+            except Exception as embed_error:
+                logger.warning(f"Embedding error for line: {embed_error}")
                 # フォールバック: ランダムベクトル
                 user_vecs.append(np.random.random(1536))
         
@@ -226,33 +254,38 @@ def compute_top3(summary, df):
                 "文化特性": culture_features
             })
         
-        return sorted(results, key=lambda x: x["最近"] or 0, reverse=True)[:3]
+        sorted_results = sorted(results, key=lambda x: x["最近"] or 0, reverse=True)[:3]
+        logger.info("compute_top3 completed successfully")
+        return sorted_results
+        
     except Exception as e:
         logger.error(f"Error in compute_top3: {str(e)}")
-        
-        # エラー時のフォールバックデータ
-        return [
-            {"会社名": "テックイノベーション株式会社", "初期": 72.3, "中期": 78.5, "最近": 85.7, 
-             "文化特性": {"革新性": 85, "安定性": 70, "成長機会": 90, "環境": 75, "報酬": 80}},
-            {"会社名": "グローバルソリューションズ", "初期": 68.1, "中期": 72.4, "最近": 79.8,
-             "文化特性": {"革新性": 75, "安定性": 85, "成長機会": 70, "環境": 65, "報酬": 90}},
-            {"会社名": "フューチャークリエイト", "初期": 65.7, "中期": 70.2, "最近": 76.4,
-             "文化特性": {"革新性": 90, "安定性": 60, "成長機会": 85, "環境": 80, "報酬": 75}}
-        ]
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return fallback_data
 
 def generate_match_reason(company_data, user_values, model="gpt-3.5-turbo"):
     """マッチング理由を生成"""
-    if not OPENAI_API_KEY:
-        # 企業ごとのフォールバックメッセージ
-        if "テック" in company_data["会社名"]:
-            return "あなたの革新性を重視する価値観が、同社の先進的な企業文化と高くマッチしています。特に成長機会の豊富さと挑戦を奨励する環境があなたの可能性を最大限に引き出すでしょう。"
-        elif "グローバル" in company_data["会社名"]:
-            return "あなたの安定志向と報酬重視の価値観が、同社の堅実な企業文化と高い親和性を持っています。特に充実した福利厚生と明確なキャリアパスがあなたの長期的な成長をサポートします。"
-        else:
-            return "あなたの創造性と自由度を重視する価値観が、同社の柔軟な企業文化と強く共鳴しています。特にチームの多様性と協働の環境があなたの独自のアイデアを形にする機会を提供するでしょう。"
+    logger.info(f"Starting generate_match_reason for {company_data['会社名']}")
+    
+    # フォールバックメッセージ
+    fallback_messages = {
+        "テック": "あなたの革新性を重視する価値観が、同社の先進的な企業文化と高くマッチしています。特に成長機会の豊富さと挑戦を奨励する環境があなたの可能性を最大限に引き出すでしょう。",
+        "グローバル": "あなたの安定志向と報酬重視の価値観が、同社の堅実な企業文化と高い親和性を持っています。特に充実した福利厚生と明確なキャリアパスがあなたの長期的な成長をサポートします。",
+        "フューチャー": "あなたの創造性と自由度を重視する価値観が、同社の柔軟な企業文化と強く共鳴しています。特にチームの多様性と協働の環境があなたの独自のアイデアを形にする機会を提供するでしょう。"
+    }
+    
+    # デフォルトメッセージ
+    default_message = "あなたの価値観と企業文化の相性が良く、理想的な働き方を実現できる環境が整っています。多様な成長機会と充実したサポート体制があなたのキャリア発展を後押しするでしょう。"
     
     try:
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        client = get_openai_client()
+        if not client:
+            logger.warning("OpenAI client not available, using fallback message")
+            # 企業名に基づいてフォールバックメッセージを選択
+            for key, message in fallback_messages.items():
+                if key in company_data["会社名"]:
+                    return message
+            return default_message
         
         # 文化特性とスコアを取得
         features = company_data["文化特性"]
@@ -276,38 +309,33 @@ def generate_match_reason(company_data, user_values, model="gpt-3.5-turbo"):
         - 2〜3文に収める
         """
         
-        res = client.chat.completions.create(
+        response = client.chat.completions.create(
             model=model, 
             messages=[{"role":"user","content":prompt}],
-            max_tokens=200
+            max_tokens=200,
+            temperature=0.7
         )
         
-        return res.choices[0].message.content
+        result = response.choices[0].message.content
+        logger.info("generate_match_reason completed successfully")
+        return result
+        
     except Exception as e:
         logger.error(f"Error in generate_match_reason: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         
-        # 企業ごとのフォールバックメッセージ
-        if "テック" in company_data["会社名"]:
-            return "あなたの革新性を重視する価値観が、同社の先進的な企業文化と高くマッチしています。特に成長機会の豊富さと挑戦を奨励する環境があなたの可能性を最大限に引き出すでしょう。"
-        elif "グローバル" in company_data["会社名"]:
-            return "あなたの安定志向と報酬重視の価値観が、同社の堅実な企業文化と高い親和性を持っています。特に充実した福利厚生と明確なキャリアパスがあなたの長期的な成長をサポートします。"
-        else:
-            return "あなたの創造性と自由度を重視する価値観が、同社の柔軟な企業文化と強く共鳴しています。特にチームの多様性と協働の環境があなたの独自のアイデアを形にする機会を提供するでしょう。"
+        # エラー時も企業名に基づいてフォールバックメッセージを選択
+        for key, message in fallback_messages.items():
+            if key in company_data["会社名"]:
+                return message
+        return default_message
 
 def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
             q4_choice, q4_text, q5_choice, q5_text):
     """メイン分析処理"""
+    logger.info("Starting run_app")
+    
     try:
-        # 最初に処理中メッセージを表示
-        progress_html = """
-        <div style="text-align: center; padding: 30px 0;">
-            <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.3); 
-                 border-top-color: #7C3AED; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-            <p style="margin-top: 15px; font-weight: bold; color: #7C3AED;">分析を実行中です...</p>
-            <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
-        </div>
-        """
-        
         # 回答データの収集（複数選択対応）
         answers = []
         
@@ -321,16 +349,23 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
                 answers.append(text.strip())
         
         if not answers:
-            return "回答が入力されていません", "", gr.update(visible=False), gr.update(value="次へ進む", variant="primary", elem_classes="")
+            logger.warning("No answers provided")
+            return "回答が入力されていません", "", gr.update(visible=False), gr.update(value="次へ進む", variant="primary")
+        
+        logger.info(f"Collected answers: {len(answers)} items")
         
         # 価値観分類
+        logger.info("Starting value classification")
         summary = classify_values(", ".join(answers))
         
         # 企業マッチング計算
+        logger.info("Starting company matching")
         top3 = compute_top3(summary, df)
         
         # 各企業のマッチング理由を生成
-        for company in top3:
+        logger.info("Generating match reasons")
+        for i, company in enumerate(top3):
+            logger.info(f"Generating reason for company {i+1}: {company['会社名']}")
             company["マッチング理由"] = generate_match_reason(company, summary)
         
         # 分析結果を辞書形式で作成
@@ -384,11 +419,13 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         </style>
         """
         
+        logger.info("run_app completed successfully")
         # 最終結果を返す（リンクのみ表示）
-        return summary, result_link_html, gr.update(visible=True), gr.update(value="分析完了 ✓", variant="secondary", elem_classes="")
+        return summary, result_link_html, gr.update(visible=True), gr.update(value="分析完了 ✓", variant="secondary")
         
     except Exception as e:
         logger.error(f"Error in run_app: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         error_html = f"""
         <div style="text-align: center; padding: 30px; background: #fef2f2; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05);">
             <h3 style="color: #be123c; font-size: 20px; margin-bottom: 15px;">エラーが発生しました</h3>
@@ -397,7 +434,7 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
             <p>再度お試しいただくか、システム管理者にお問い合わせください。</p>
         </div>
         """
-        return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary", elem_classes="")
+        return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary")
 
 # CSS定義（グラデーションモダンスタイル）
 custom_css = """
