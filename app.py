@@ -711,6 +711,5 @@ if __name__ == "__main__":
         server_port=port,
         debug=False,
         share=False,
-        show_error=True,
-        show_tips=False
+        show_error=True
     )
