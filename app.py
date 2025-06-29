@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""app.py - グラデーションモダンデザインの企業文化マッチングアプリ (Render用に最適化)"""
+"""app.py - クリーンモダンデザインの企業文化マッチングアプリ (Render用に最適化)"""
 
 import pandas as pd
 import ast
@@ -379,42 +379,70 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         # 友人のサイト用URLを生成
         friend_url = make_friend_url(analysis_result)
         
-        # リンクのみを表示するHTMLを生成
+        # リンクのみを表示するHTMLを生成（クリーンデザイン）
         result_link_html = f"""
-        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #f5f7fa, #f8f9fa); border-radius: 20px; text-align: center;">
-            <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 12px 40px rgba(0,0,0,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);">
-                <div style="font-size: 48px; margin-bottom: 20px;">🎉</div>
-                <h2 style="background: linear-gradient(to right, #4F46E5, #EC4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; margin-bottom: 20px; font-weight: bold;">分析が完了しました！</h2>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+            <div style="background: white; border-radius: 24px; padding: 48px; box-shadow: 0 2px 40px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
                 
-                <p style="font-size: 18px; color: #64748b; margin-bottom: 30px; line-height: 1.6;">
-                    あなたの価値観に基づいた企業マッチング結果をご用意いたしました。<br>
-                    詳細な結果は、専用サイトでご確認いただけます。
-                </p>
-                
-                <div style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05)); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid rgba(124, 58, 237, 0.2);">
-                    <div style="font-size: 16px; color: #475569; margin-bottom: 15px;">
-                        ✅ 価値観タイプの分類<br>
-                        ✅ おすすめ企業TOP3<br>
-                        ✅ マッチング理由の詳細分析<br>
-                        ✅ 企業文化特性の比較
+                <!-- ロゴエリア（GHELIAを模したデザイン） -->
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <div style="display: inline-block; background: #f8f8f8; padding: 24px 40px; border-radius: 16px;">
+                        <h2 style="margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: #333;">RESULT</h2>
                     </div>
                 </div>
                 
-                <a href="{friend_url}" target="_blank" style="display: inline-block; background: linear-gradient(to right, #4F46E5, #7C3AED); color: white; text-decoration: none; padding: 16px 32px; border-radius: 50px; font-size: 18px; font-weight: bold; box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3); transition: all 0.3s ease; transform: translateY(0);">
-                    📊 分析結果を確認する
-                </a>
+                <!-- タイトル -->
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <h3 style="font-size: 24px; font-weight: 500; color: #1a1a1a; margin: 0 0 12px 0;">分析が完了しました</h3>
+                    <p style="font-size: 16px; color: #666; margin: 0; line-height: 1.6;">
+                        あなたの価値観に基づいた<br>
+                        企業マッチング結果をご用意しました
+                    </p>
+                </div>
                 
-                <p style="font-size: 14px; color: #94a3b8; margin-top: 20px;">
-                    ※ リンク先で簡単な登録を行うと、詳細な分析結果をご覧いただけます
+                <!-- 結果内容プレビュー -->
+                <div style="background: #fafafa; border-radius: 16px; padding: 24px; margin-bottom: 32px;">
+                    <p style="font-size: 14px; color: #333; margin: 0 0 16px 0; font-weight: 500;">
+                        以下の内容を確認できます：
+                    </p>
+                    <ul style="margin: 0; padding: 0 0 0 20px; list-style: none;">
+                        <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
+                            <span style="position: absolute; left: 0; color: #333;">・</span>
+                            価値観タイプの詳細分析
+                        </li>
+                        <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
+                            <span style="position: absolute; left: 0; color: #333;">・</span>
+                            おすすめ企業TOP3
+                        </li>
+                        <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
+                            <span style="position: absolute; left: 0; color: #333;">・</span>
+                            マッチング理由の解説
+                        </li>
+                        <li style="font-size: 14px; color: #666; margin-bottom: 0; position: relative; padding-left: 20px;">
+                            <span style="position: absolute; left: 0; color: #333;">・</span>
+                            企業文化の詳細データ
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- CTAボタン -->
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <a href="{friend_url}" target="_blank" style="display: inline-block; background: #1a1a1a; color: white; text-decoration: none; padding: 16px 48px; border-radius: 30px; font-size: 16px; font-weight: 500; transition: all 0.2s ease; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                        結果を確認する
+                    </a>
+                </div>
+                
+                <!-- 注意書き -->
+                <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
+                    ※ 外部サイトに移動します
                 </p>
             </div>
         </div>
         
         <style>
         a:hover {{
-            transform: translateY(-2px) !important;
-            box-shadow: 0 12px 35px rgba(124, 58, 237, 0.4) !important;
-            filter: brightness(1.05) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
         }}
         </style>
         """
@@ -427,139 +455,270 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         logger.error(f"Error in run_app: {str(e)}")
         logger.error(f"Traceback: {traceback.format_exc()}")
         error_html = f"""
-        <div style="text-align: center; padding: 30px; background: #fef2f2; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05);">
-            <h3 style="color: #be123c; font-size: 20px; margin-bottom: 15px;">エラーが発生しました</h3>
-            <p>申し訳ありませんが、処理中にエラーが発生しました。</p>
-            <p style="font-family: monospace; background: rgba(0,0,0,0.03); padding: 10px; border-radius: 8px; margin: 15px 0; font-size: 14px;">{str(e)[:200]}</p>
-            <p>再度お試しいただくか、システム管理者にお問い合わせください。</p>
+        <div style="text-align: center; padding: 40px; background: #fff5f5; border-radius: 16px;">
+            <h3 style="color: #dc2626; font-size: 18px; margin-bottom: 12px;">エラーが発生しました</h3>
+            <p style="color: #666; font-size: 14px;">申し訳ありませんが、処理中にエラーが発生しました。</p>
+            <p style="font-family: monospace; background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px; margin: 16px 0; font-size: 12px; color: #666;">{str(e)[:200]}</p>
+            <p style="color: #666; font-size: 14px;">再度お試しいただくか、システム管理者にお問い合わせください。</p>
         </div>
         """
         return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary")
 
-# CSS定義（グラデーションモダンスタイル）
+# CSS定義（クリーンモダンスタイル）
 custom_css = """
+/* フォントとベース設定 */
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  color: #333;
-  background: linear-gradient(135deg, #f5f7fa, #f8f9fa);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans JP', sans-serif;
+  color: #1a1a1a;
+  background: #f5f5f5;
+  line-height: 1.6;
 }
 
-/* カードスタイル */
-.content-card {
+/* メインコンテナ */
+.gradio-container {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+}
+
+/* カードスタイル（Elevation風） */
+.card-elevation {
   background: white;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.04);
   transition: all 0.3s ease;
 }
 
-.content-card:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-  transform: translateY(-2px);
+.card-elevation:hover {
+  box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* タイトル */
+h1 {
+  font-size: 32px !important;
+  font-weight: 300 !important;
+  text-align: center;
+  margin: 40px 0 48px 0 !important;
+  color: #1a1a1a !important;
+  letter-spacing: 0.5px;
 }
 
 /* 質問タイトル */
-.content-card h3 {
-  background: linear-gradient(to right, #4F46E5, #7C3AED);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 20px;
-  margin-bottom: 15px;
+.question-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* ボタンスタイル */
-.primary-button {
-  background: linear-gradient(to right, #4F46E5, #7C3AED) !important;
+.question-title:before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+
+/* チェックボックスグループ */
+.checkbox-group label {
+  background: #f8f8f8 !important;
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 12px !important;
+  padding: 12px 20px !important;
+  margin: 8px !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+}
+
+.checkbox-group label:hover {
+  background: #f0f0f0 !important;
+  border-color: #d0d0d0 !important;
+}
+
+.checkbox-group input[type="checkbox"]:checked + label {
+  background: #1a1a1a !important;
   color: white !important;
-  transition: all 0.3s ease !important;
-  transform: translateY(0) !important;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3) !important;
-  position: relative !important;
-  border-radius: 100px !important;
-  padding: 2px 0 !important;
+  border-color: #1a1a1a !important;
+}
+
+/* テキスト入力 */
+input[type="text"], textarea {
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+  background: #fafafa !important;
+}
+
+input[type="text"]:focus, textarea:focus {
+  border-color: #1a1a1a !important;
+  background: white !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(26,26,26,0.05) !important;
+}
+
+/* ボタン */
+.primary-button {
+  background: #1a1a1a !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 24px !important;
+  padding: 14px 32px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 32px auto 0 auto !important;
+  display: block !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 
 .primary-button:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4) !important;
-  filter: brightness(1.05) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 }
 
-/* ヘッダー */
-h1 {
-  background: linear-gradient(to right, #4F46E5, #EC4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  text-align: center;
-  margin: 30px 0 !important;
-  font-size: 32px !important;
-  padding-bottom: 5px;
+.primary-button:active {
+  transform: translateY(0) !important;
 }
 
-/* モバイル対応 */
-@media (max-width: 768px) {
-  .content-card {
-    padding: 20px;
+/* 結果エリア */
+.results-area {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes spin {
-  to {transform: rotate(360deg);}
+/* アコーディオン */
+.accordion {
+  background: white !important;
+  border-radius: 16px !important;
+  border: 1px solid #e5e5e5 !important;
+  margin-top: 40px !important;
+}
+
+.accordion-header {
+  padding: 20px 24px !important;
+  font-weight: 500 !important;
+  color: #666 !important;
+  font-size: 14px !important;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .card-elevation {
+    padding: 24px 20px;
+  }
+  
+  h1 {
+    font-size: 28px !important;
+  }
+  
+  .checkbox-group label {
+    display: block !important;
+    margin: 6px 0 !important;
+  }
+}
+
+/* Gradioデフォルトスタイルの上書き */
+.gr-button {
+  font-family: inherit !important;
+}
+
+.gr-box {
+  border-radius: 16px !important;
+  border-color: #e5e5e5 !important;
+}
+
+.gr-form {
+  border: none !important;
+  background: transparent !important;
+}
+
+.gr-panel {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* ラベルのスタイル */
+label.block {
+  color: #666 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
 }
 """
 
 # UI定義
-with gr.Blocks(css=custom_css, title="企業文化マッチング") as demo:
-    gr.HTML("<h1>企業文化マッチング</h1>")
+with gr.Blocks(css=custom_css, title="企業文化マッチング診断") as demo:
+    gr.HTML("<h1>企業文化マッチング診断</h1>")
     
-    with gr.Group(elem_classes="content-card"):
-        gr.HTML("<h3>Q1: 仕事で大切にしたいこと</h3>")
+    with gr.Group(elem_classes="card-elevation"):
+        gr.HTML('<div class="question-title">仕事で大切にしたいこと</div>')
         q1_choice = gr.CheckboxGroup(
             ["挑戦", "安定性", "社会貢献性", "自己成長", "柔軟な働き方", "プライベートの充実"],
-            label="選択（複数選択可）"
+            label="",
+            elem_classes="checkbox-group"
         )
-        q1_text = gr.Textbox(label="その他", placeholder="その他の価値観を入力してください...")
+        q1_text = gr.Textbox(label="その他", placeholder="その他の価値観があれば入力してください", elem_classes="text-input")
 
-    with gr.Group(elem_classes="content-card"):
-        gr.HTML("<h3>Q2: どんな働き方がしたいか</h3>")
+    with gr.Group(elem_classes="card-elevation"):
+        gr.HTML('<div class="question-title">理想の働き方</div>')
         q2_choice = gr.CheckboxGroup(
             ["フルリモートワーク", "出社", "リモートワークと出社のハイブリッド"],
-            label="選択（複数選択可）"
+            label="",
+            elem_classes="checkbox-group"
         )
-        q2_text = gr.Textbox(label="その他", placeholder="具体的な働き方があれば入力してください...")
+        q2_text = gr.Textbox(label="その他", placeholder="具体的な働き方があれば入力してください", elem_classes="text-input")
 
-    with gr.Group(elem_classes="content-card"):
-        gr.HTML("<h3>Q3: どんなチームで働きたいか</h3>")
+    with gr.Group(elem_classes="card-elevation"):
+        gr.HTML('<div class="question-title">理想のチーム環境</div>')
         q3_choice = gr.CheckboxGroup(
             ["裁量権大", "多様性", "強いリーダーシップ", "フラットな関係性"],
-            label="選択（複数選択可）"
+            label="",
+            elem_classes="checkbox-group"
         )
-        q3_text = gr.Textbox(label="その他", placeholder="理想のチーム環境について入力してください...")
+        q3_text = gr.Textbox(label="その他", placeholder="理想のチーム環境について入力してください", elem_classes="text-input")
 
-    with gr.Group(elem_classes="content-card"):
-        gr.HTML("<h3>Q4: どんな環境を求めるか</h3>")
+    with gr.Group(elem_classes="card-elevation"):
+        gr.HTML('<div class="question-title">求める環境・制度</div>')
         q4_choice = gr.CheckboxGroup(
-            ["研修が充実している", "OJTがある", "海外研修がある", "自己学習の支援がある", "副業OK"],
-            label="選択（複数選択可）"
+            ["研修が充実", "OJTがある", "海外研修", "自己学習支援", "副業OK"],
+            label="",
+            elem_classes="checkbox-group"
         )
-        q4_text = gr.Textbox(label="その他", placeholder="その他の環境要件を入力してください...")
+        q4_text = gr.Textbox(label="その他", placeholder="その他の環境要件を入力してください", elem_classes="text-input")
 
-    with gr.Group(elem_classes="content-card"):
-        gr.HTML("<h3>Q5: その他重視するポイント</h3>")
+    with gr.Group(elem_classes="card-elevation"):
+        gr.HTML('<div class="question-title">その他重視するポイント</div>')
         q5_choice = gr.CheckboxGroup(
             ["高インセンティブ", "勤務地", "フレックス", "スピード感"],
-            label="選択（複数選択可）"
+            label="",
+            elem_classes="checkbox-group"
         )
-        q5_text = gr.Textbox(label="その他", placeholder="その他に重視する点があれば入力してください...")
+        q5_text = gr.Textbox(label="その他", placeholder="その他に重視する点があれば入力してください", elem_classes="text-input")
 
-    with gr.Row(elem_classes="button-row"):
-        next_btn = gr.Button("分析を開始する", elem_classes="primary-button", size="lg")
+    next_btn = gr.Button("診断を開始", elem_classes="primary-button", size="lg")
 
-    with gr.Group(visible=False) as results_area:
+    with gr.Group(visible=False, elem_classes="results-area") as results_area:
         summary_out = gr.Textbox(visible=False)
         results_out = gr.HTML()
 
@@ -581,15 +740,14 @@ with gr.Blocks(css=custom_css, title="企業文化マッチング") as demo:
     )
 
 # 使用上の注意
-with gr.Accordion("使用上の注意", open=False, elem_classes="footer"):
+with gr.Accordion("ご利用にあたって", open=False, elem_classes="accordion"):
     gr.HTML("""
-    <div style="padding: 10px;">
-        <p><strong>このアプリについて:</strong></p>
-        <ul>
-            <li>このアプリは、あなたの価値観と企業文化のマッチングをシミュレーションするデモです。</li>
-            <li>実際の企業データは限定的であり、結果はあくまで参考値としてご利用ください。</li>
-            <li>OpenAI APIを使用しているため、処理に数秒かかることがあります。</li>
-            <li>問題が発生した場合は、ページをリロードするか、後ほど再度お試しください。</li>
+    <div style="padding: 8px; color: #666; font-size: 14px; line-height: 1.8;">
+        <p style="margin-bottom: 12px;">このアプリケーションは、あなたの価値観と企業文化のマッチングをAIが分析するデモンストレーションです。</p>
+        <ul style="margin: 0; padding-left: 20px;">
+            <li>実際の企業データは限定的であり、結果は参考値としてご利用ください</li>
+            <li>OpenAI APIを使用しているため、処理に数秒かかることがあります</li>
+            <li>入力された情報は分析にのみ使用され、保存されません</li>
         </ul>
     </div>
     """)
