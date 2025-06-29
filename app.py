@@ -384,58 +384,64 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
             <div style="background: white; border-radius: 24px; padding: 48px; box-shadow: 0 2px 40px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
                 
-                <!-- ロゴエリア（GHELIAを模したデザイン） -->
-                <div style="text-align: center; margin-bottom: 32px;">
-                    <div style="display: inline-block; background: #f8f8f8; padding: 24px 40px; border-radius: 16px;">
-                        <h2 style="margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: #333;">RESULT</h2>
+                <!-- 背景グラデーション（サブトル） -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,229,236,0.3) 0%, rgba(232,245,255,0.3) 100%); z-index: 0;"></div>
+                
+                <!-- コンテンツ（z-indexで前面に） -->
+                <div style="position: relative; z-index: 1;">
+                    <!-- ロゴエリア（GHELIAを模したデザイン） -->
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <div style="display: inline-block; background: rgba(248,248,248,0.8); padding: 24px 40px; border-radius: 16px; backdrop-filter: blur(10px);">
+                            <h2 style="margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: #333;">RESULT</h2>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- タイトル -->
-                <div style="text-align: center; margin-bottom: 32px;">
-                    <h3 style="font-size: 24px; font-weight: 500; color: #1a1a1a; margin: 0 0 12px 0;">分析が完了しました</h3>
-                    <p style="font-size: 16px; color: #666; margin: 0; line-height: 1.6;">
-                        あなたの価値観に基づいた<br>
-                        企業マッチング結果をご用意しました
+                    
+                    <!-- タイトル -->
+                    <div style="text-align: center; margin-bottom: 32px;">
+                        <h3 style="font-size: 24px; font-weight: 500; color: #1a1a1a; margin: 0 0 12px 0;">分析が完了しました</h3>
+                        <p style="font-size: 16px; color: #666; margin: 0; line-height: 1.6;">
+                            あなたの価値観に基づいた<br>
+                            企業マッチング結果をご用意しました
+                        </p>
+                    </div>
+                    
+                    <!-- 結果内容プレビュー -->
+                    <div style="background: rgba(250,250,250,0.8); border-radius: 16px; padding: 24px; margin-bottom: 32px; backdrop-filter: blur(5px);">
+                        <p style="font-size: 14px; color: #333; margin: 0 0 16px 0; font-weight: 500;">
+                            以下の内容を確認できます：
+                        </p>
+                        <ul style="margin: 0; padding: 0 0 0 20px; list-style: none;">
+                            <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                                価値観タイプの詳細分析
+                            </li>
+                            <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                                おすすめ企業TOP3
+                            </li>
+                            <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                                マッチング理由の解説
+                            </li>
+                            <li style="font-size: 14px; color: #666; margin-bottom: 0; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                                企業文化の詳細データ
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- CTAボタン -->
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <a href="{friend_url}" target="_blank" style="display: inline-block; background: #1a1a1a; color: white; text-decoration: none; padding: 16px 48px; border-radius: 30px; font-size: 16px; font-weight: 500; transition: all 0.2s ease; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                            結果を確認する
+                        </a>
+                    </div>
+                    
+                    <!-- 注意書き -->
+                    <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
+                        ※ 外部サイトに移動します
                     </p>
                 </div>
-                
-                <!-- 結果内容プレビュー -->
-                <div style="background: #fafafa; border-radius: 16px; padding: 24px; margin-bottom: 32px;">
-                    <p style="font-size: 14px; color: #333; margin: 0 0 16px 0; font-weight: 500;">
-                        以下の内容を確認できます：
-                    </p>
-                    <ul style="margin: 0; padding: 0 0 0 20px; list-style: none;">
-                        <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
-                            <span style="position: absolute; left: 0; color: #333;">・</span>
-                            価値観タイプの詳細分析
-                        </li>
-                        <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
-                            <span style="position: absolute; left: 0; color: #333;">・</span>
-                            おすすめ企業TOP3
-                        </li>
-                        <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
-                            <span style="position: absolute; left: 0; color: #333;">・</span>
-                            マッチング理由の解説
-                        </li>
-                        <li style="font-size: 14px; color: #666; margin-bottom: 0; position: relative; padding-left: 20px;">
-                            <span style="position: absolute; left: 0; color: #333;">・</span>
-                            企業文化の詳細データ
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- CTAボタン -->
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <a href="{friend_url}" target="_blank" style="display: inline-block; background: #1a1a1a; color: white; text-decoration: none; padding: 16px 48px; border-radius: 30px; font-size: 16px; font-weight: 500; transition: all 0.2s ease; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
-                        結果を確認する
-                    </a>
-                </div>
-                
-                <!-- 注意書き -->
-                <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
-                    ※ 外部サイトに移動します
-                </p>
             </div>
         </div>
         
@@ -470,7 +476,8 @@ custom_css = """
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans JP', sans-serif;
   color: #1a1a1a;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%);
+  min-height: 100vh;
   line-height: 1.6;
 }
 
@@ -478,6 +485,7 @@ body {
 .gradio-container {
   max-width: 800px !important;
   margin: 0 auto !important;
+  background: transparent !important;
 }
 
 /* カードスタイル（Elevation風） */
