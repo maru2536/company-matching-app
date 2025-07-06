@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""app.py - クリーンモダンデザインの企業文化マッチングアプリ (Render用に最適化)"""
+"""app.py - クリーンモダンデザインの企業文化マッチングアプリ (Render用に最適化 + ダークモード対応)"""
 
 import pandas as pd
 import ast
@@ -470,14 +470,69 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         """
         return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary")
 
-# CSS定義（クリーンモダンスタイル）
+# CSS定義（ダークモード対応済みクリーンモダンスタイル）
 custom_css = """
+
+/* CSS変数でテーマカラーを定義 */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f8f8;
+  --bg-tertiary: #fafafa;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --border-primary: #e5e5e5;
+  --border-secondary: #d0d0d0;
+  --shadow-light: rgba(0,0,0,0.06);
+  --shadow-medium: rgba(0,0,0,0.08);
+  --shadow-heavy: rgba(0,0,0,0.15);
+  --accent-color: #1a1a1a;
+  --gradient-bg: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%);
+}
+
+/* ダークモード用のCSS変数 */
+[data-theme="dark"], 
+.dark,
+body.dark {
+  --bg-primary: #1f1f1f;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #333333;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-tertiary: #999999;
+  --border-primary: #404040;
+  --border-secondary: #505050;
+  --shadow-light: rgba(0,0,0,0.3);
+  --shadow-medium: rgba(0,0,0,0.4);
+  --shadow-heavy: rgba(0,0,0,0.5);
+  --accent-color: #ffffff;
+  --gradient-bg: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+/* メディアクエリでシステムのダークモード設定を検出 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1f1f1f;
+    --bg-secondary: #2a2a2a;
+    --bg-tertiary: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-tertiary: #999999;
+    --border-primary: #404040;
+    --border-secondary: #505050;
+    --shadow-light: rgba(0,0,0,0.3);
+    --shadow-medium: rgba(0,0,0,0.4);
+    --shadow-heavy: rgba(0,0,0,0.5);
+    --accent-color: #ffffff;
+    --gradient-bg: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  }
+}
 
 /* フォントとベース設定 */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans JP', sans-serif;
-  color: #1a1a1a;
-  background: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%);
+  color: var(--text-primary) !important;
+  background: var(--gradient-bg) !important;
   min-height: 100vh;
   line-height: 1.6;
 }
@@ -491,17 +546,17 @@ body {
 
 /* カードスタイル（Elevation風） */
 .card-elevation {
-  background: white;
+  background: var(--bg-primary) !important;
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 2px 20px var(--shadow-light);
+  border: 1px solid var(--border-primary) !important;
   transition: all 0.3s ease;
 }
 
 .card-elevation:hover {
-  box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 30px var(--shadow-medium);
   transform: translateY(-1px);
 }
 
@@ -511,7 +566,7 @@ h1 {
   font-weight: 300 !important;
   text-align: center;
   margin: 40px 0 48px 0 !important;
-  color: #1a1a1a !important;
+  color: var(--text-primary) !important;
   letter-spacing: 0.5px;
 }
 
@@ -519,7 +574,7 @@ h1 {
 .question-title {
   font-size: 18px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--text-primary) !important;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -531,54 +586,63 @@ h1 {
   display: inline-block;
   width: 4px;
   height: 20px;
-  background: #1a1a1a;
+  background: var(--accent-color);
   border-radius: 2px;
 }
 
 /* チェックボックスグループ */
 .checkbox-group label {
-  background: #f8f8f8 !important;
-  border: 1px solid #e5e5e5 !important;
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-primary) !important;
   border-radius: 12px !important;
   padding: 12px 20px !important;
   margin: 8px !important;
   transition: all 0.2s ease !important;
   cursor: pointer !important;
   display: inline-block !important;
+  color: var(--text-primary) !important;
 }
 
 .checkbox-group label:hover {
-  background: #f0f0f0 !important;
-  border-color: #d0d0d0 !important;
+  background: var(--bg-tertiary) !important;
+  border-color: var(--border-secondary) !important;
 }
 
 .checkbox-group input[type="checkbox"]:checked + label {
-  background: #1a1a1a !important;
-  color: white !important;
-  border-color: #1a1a1a !important;
+  background: var(--accent-color) !important;
+  color: var(--bg-primary) !important;
+  border-color: var(--accent-color) !important;
 }
 
 /* テキスト入力 */
 input[type="text"], textarea {
-  border: 1px solid #e5e5e5 !important;
+  border: 1px solid var(--border-primary) !important;
   border-radius: 12px !important;
   padding: 12px 16px !important;
   font-size: 14px !important;
   transition: all 0.2s ease !important;
-  background: #fafafa !important;
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
 }
 
 input[type="text"]:focus, textarea:focus {
-  border-color: #1a1a1a !important;
-  background: white !important;
+  border-color: var(--accent-color) !important;
+  background: var(--bg-primary) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(26,26,26,0.05) !important;
+  box-shadow: 0 0 0 3px rgba(26,26,26,0.1) !important;
+}
+
+/* プレースホルダーのスタイル */
+input[type="text"]::placeholder, 
+textarea::placeholder {
+  color: var(--text-tertiary) !important;
+  opacity: 0.8;
 }
 
 /* ボタン */
 .primary-button {
-  background: #1a1a1a !important;
-  color: white !important;
+  background: var(--accent-color) !important;
+  color: var(--bg-primary) !important;
   border: none !important;
   border-radius: 24px !important;
   padding: 14px 32px !important;
@@ -588,12 +652,12 @@ input[type="text"]:focus, textarea:focus {
   transition: all 0.2s ease !important;
   margin: 32px auto 0 auto !important;
   display: block !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 2px 8px var(--shadow-light) !important;
 }
 
 .primary-button:hover {
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 4px 12px var(--shadow-medium) !important;
 }
 
 .primary-button:active {
@@ -618,17 +682,84 @@ input[type="text"]:focus, textarea:focus {
 
 /* アコーディオン */
 .accordion {
-  background: white !important;
+  background: var(--bg-primary) !important;
   border-radius: 16px !important;
-  border: 1px solid #e5e5e5 !important;
+  border: 1px solid var(--border-primary) !important;
   margin-top: 40px !important;
 }
 
 .accordion-header {
   padding: 20px 24px !important;
   font-weight: 500 !important;
-  color: #666 !important;
+  color: var(--text-secondary) !important;
   font-size: 14px !important;
+}
+
+/* ラベルのスタイル */
+label.block {
+  color: var(--text-secondary) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+}
+
+/* Gradioデフォルトスタイルの上書き（ダークモード対応） */
+.gr-button {
+  font-family: inherit !important;
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-primary) !important;
+}
+
+.gr-box {
+  border-radius: 16px !important;
+  border-color: var(--border-primary) !important;
+  background: var(--bg-primary) !important;
+}
+
+.gr-form {
+  border: none !important;
+  background: transparent !important;
+}
+
+.gr-panel {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Gradioの特定要素のダークモード対応 */
+.gradio-container * {
+  color: var(--text-primary);
+}
+
+/* チェックボックスとラジオボタンの特別な対応 */
+input[type="checkbox"], input[type="radio"] {
+  accent-color: var(--accent-color) !important;
+}
+
+/* セレクトボックスのダークモード対応 */
+select {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-primary) !important;
+}
+
+/* スクロールバーのダークモード対応 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
 }
 
 /* レスポンシブ対応 - モバイル */
@@ -695,35 +826,6 @@ input[type="text"]:focus, textarea:focus {
     padding: 40px;
   }
 }
-
-/* Gradioデフォルトスタイルの上書き */
-.gr-button {
-  font-family: inherit !important;
-}
-
-.gr-box {
-  border-radius: 16px !important;
-  border-color: #e5e5e5 !important;
-}
-
-.gr-form {
-  border: none !important;
-  background: transparent !important;
-}
-
-.gr-panel {
-  background: transparent !important;
-  border: none !important;
-}
-
-/* ラベルのスタイル */
-label.block {
-  color: #666 !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  margin-bottom: 8px !important;
-}
-
 
 """
 
