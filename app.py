@@ -381,50 +381,50 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         
         # リンクのみを表示するHTMLを生成（クリーンデザイン）
         result_link_html = f"""
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-            <div style="background: white; border-radius: 24px; padding: 48px; box-shadow: 0 2px 40px rgba(0,0,0,0.08); position: relative; overflow: hidden;">
+        <div class="result-container" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+            <div class="result-card" style="background: var(--bg-primary); border-radius: 24px; padding: 48px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
                 
                 <!-- 背景グラデーション（サブトル） -->
-                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,229,236,0.3) 0%, rgba(232,245,255,0.3) 100%); z-index: 0;"></div>
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,229,236,0.3) 0%, rgba(232,245,255,0.3) 100%); z-index: 0; opacity: 0.5;"></div>
                 
                 <!-- コンテンツ（z-indexで前面に） -->
                 <div style="position: relative; z-index: 1;">
                     <!-- ロゴエリア（GHELIAを模したデザイン） -->
                     <div style="text-align: center; margin-bottom: 32px;">
-                        <div style="display: inline-block; background: rgba(248,248,248,0.8); padding: 24px 40px; border-radius: 16px; backdrop-filter: blur(10px);">
-                            <h2 style="margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: #333;">RESULT</h2>
+                        <div style="display: inline-block; background: var(--bg-secondary); padding: 24px 40px; border-radius: 16px; backdrop-filter: blur(10px);">
+                            <h2 style="margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 8px; color: var(--text-primary);">RESULT</h2>
                         </div>
                     </div>
                     
                     <!-- タイトル -->
                     <div style="text-align: center; margin-bottom: 32px;">
-                        <h3 style="font-size: 24px; font-weight: 500; color: #1a1a1a; margin: 0 0 12px 0;">分析が完了しました</h3>
-                        <p style="font-size: 16px; color: #666; margin: 0; line-height: 1.6;">
+                        <h3 style="font-size: 24px; font-weight: 500; color: var(--text-primary); margin: 0 0 12px 0;">分析が完了しました</h3>
+                        <p style="font-size: 16px; color: var(--text-secondary); margin: 0; line-height: 1.6;">
                             あなたの価値観に基づいた<br>
                             企業マッチング結果をご用意しました
                         </p>
                     </div>
                     
                     <!-- 結果内容プレビュー -->
-                    <div style="background: rgba(250,250,250,0.8); border-radius: 16px; padding: 24px; margin-bottom: 32px; backdrop-filter: blur(5px);">
-                        <p style="font-size: 14px; color: #333; margin: 0 0 16px 0; font-weight: 500;">
+                    <div style="background: var(--bg-secondary); border-radius: 16px; padding: 24px; margin-bottom: 32px; backdrop-filter: blur(5px);">
+                        <p style="font-size: 14px; color: var(--text-primary); margin: 0 0 16px 0; font-weight: 500;">
                             以下の内容を確認できます：
                         </p>
                         <ul style="margin: 0; padding: 0 0 0 20px; list-style: none;">
-                            <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
-                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                            <li style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: var(--text-primary);">・</span>
                                 価値観タイプの詳細分析
                             </li>
-                            <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
-                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                            <li style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: var(--text-primary);">・</span>
                                 おすすめ企業TOP3
                             </li>
-                            <li style="font-size: 14px; color: #666; margin-bottom: 8px; position: relative; padding-left: 20px;">
-                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                            <li style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: var(--text-primary);">・</span>
                                 マッチング理由の解説
                             </li>
-                            <li style="font-size: 14px; color: #666; margin-bottom: 0; position: relative; padding-left: 20px;">
-                                <span style="position: absolute; left: 0; color: #333;">・</span>
+                            <li style="font-size: 14px; color: var(--text-secondary); margin-bottom: 0; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; color: var(--text-primary);">・</span>
                                 企業文化の詳細データ
                             </li>
                         </ul>
@@ -432,13 +432,13 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
                     
                     <!-- CTAボタン -->
                     <div style="text-align: center; margin-bottom: 24px;">
-                        <a href="{friend_url}" target="_blank" style="display: inline-block; background: #1a1a1a; color: white; text-decoration: none; padding: 16px 48px; border-radius: 30px; font-size: 16px; font-weight: 500; transition: all 0.2s ease; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+                        <a href="{friend_url}" target="_blank" class="result-cta-button" style="display: inline-block; background: var(--button-bg); color: var(--button-text); text-decoration: none; padding: 16px 48px; border-radius: 30px; font-size: 16px; font-weight: 500; transition: all 0.2s ease; box-shadow: var(--shadow-sm);">
                             結果を確認する
                         </a>
                     </div>
                     
                     <!-- 注意書き -->
-                    <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
+                    <p style="font-size: 12px; color: var(--text-tertiary); text-align: center; margin: 0;">
                         ※ 外部サイトに移動します
                     </p>
                 </div>
@@ -446,9 +446,15 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         </div>
         
         <style>
-        a:hover {{
+        .result-cta-button:hover {{
             transform: translateY(-1px) !important;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+            box-shadow: var(--shadow-hover) !important;
+        }}
+        
+        @media (prefers-color-scheme: dark) {{
+            .result-card > div:first-child {{
+                opacity: 0.2 !important;
+            }}
         }}
         </style>
         """
@@ -461,24 +467,99 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         logger.error(f"Error in run_app: {str(e)}")
         logger.error(f"Traceback: {traceback.format_exc()}")
         error_html = f"""
-        <div style="text-align: center; padding: 40px; background: #fff5f5; border-radius: 16px;">
-            <h3 style="color: #dc2626; font-size: 18px; margin-bottom: 12px;">エラーが発生しました</h3>
-            <p style="color: #666; font-size: 14px;">申し訳ありませんが、処理中にエラーが発生しました。</p>
-            <p style="font-family: monospace; background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px; margin: 16px 0; font-size: 12px; color: #666;">{str(e)[:200]}</p>
-            <p style="color: #666; font-size: 14px;">再度お試しいただくか、システム管理者にお問い合わせください。</p>
+        <div class="error-container" style="text-align: center; padding: 40px; background: var(--error-bg); border-radius: 16px;">
+            <h3 style="color: var(--error-text); font-size: 18px; margin-bottom: 12px;">エラーが発生しました</h3>
+            <p style="color: var(--text-secondary); font-size: 14px;">申し訳ありませんが、処理中にエラーが発生しました。</p>
+            <p style="font-family: monospace; background: var(--bg-secondary); padding: 12px; border-radius: 8px; margin: 16px 0; font-size: 12px; color: var(--text-secondary);">{str(e)[:200]}</p>
+            <p style="color: var(--text-secondary); font-size: 14px;">再度お試しいただくか、システム管理者にお問い合わせください。</p>
         </div>
         """
         return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary")
 
 # CSS定義（クリーンモダンスタイル）
 custom_css = """
+/* CSS変数定義 - ライトモード/ダークモード対応 */
+:root {
+  /* ライトモードの色定義 */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f8f8;
+  --bg-tertiary: #fafafa;
+  --bg-gradient-start: #FFE5EC;
+  --bg-gradient-end: #E8F5FF;
+  
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-inverse: #ffffff;
+  
+  --border-primary: #e5e5e5;
+  --border-secondary: #d0d0d0;
+  --border-light: rgba(0,0,0,0.04);
+  
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+  --shadow-md: 0 2px 20px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 30px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 20px rgba(0,0,0,0.15);
+  
+  --focus-ring: rgba(26,26,26,0.05);
+  --button-bg: #1a1a1a;
+  --button-text: #ffffff;
+  
+  --error-bg: #fff5f5;
+  --error-text: #dc2626;
+  
+  --checkbox-bg: #f8f8f8;
+  --checkbox-hover: #f0f0f0;
+  --checkbox-checked-bg: #1a1a1a;
+  --checkbox-checked-text: #ffffff;
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ダークモードの色定義 */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #242424;
+    --bg-tertiary: #2a2a2a;
+    --bg-gradient-start: #1f1f2e;
+    --bg-gradient-end: #2d1b2e;
+    
+    --text-primary: #f0f0f0;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #808080;
+    --text-inverse: #1a1a1a;
+    
+    --border-primary: #404040;
+    --border-secondary: #505050;
+    --border-light: rgba(255,255,255,0.08);
+    
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+    --shadow-md: 0 2px 20px rgba(0,0,0,0.5);
+    --shadow-lg: 0 4px 30px rgba(0,0,0,0.6);
+    --shadow-hover: 0 6px 20px rgba(0,0,0,0.7);
+    
+    --focus-ring: rgba(255,255,255,0.1);
+    --button-bg: #f0f0f0;
+    --button-text: #1a1a1a;
+    
+    --error-bg: #2a1515;
+    --error-text: #ff6b6b;
+    
+    --checkbox-bg: #2a2a2a;
+    --checkbox-hover: #353535;
+    --checkbox-checked-bg: #f0f0f0;
+    --checkbox-checked-text: #1a1a1a;
+  }
+}
+
 /* フォントとベース設定 */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans JP', sans-serif;
-  color: #1a1a1a;
-  background: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%);
+  color: var(--text-primary);
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   min-height: 100vh;
   line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* メインコンテナ */
@@ -490,17 +571,17 @@ body {
 
 /* カードスタイル（Elevation風） */
 .card-elevation {
-  background: white;
+  background: var(--bg-primary);
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
   transition: all 0.3s ease;
 }
 
 .card-elevation:hover {
-  box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-1px);
 }
 
@@ -510,7 +591,7 @@ h1 {
   font-weight: 300 !important;
   text-align: center;
   margin: 40px 0 48px 0 !important;
-  color: #1a1a1a !important;
+  color: var(--text-primary) !important;
   letter-spacing: 0.5px;
 }
 
@@ -518,7 +599,7 @@ h1 {
 .question-title {
   font-size: 18px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -530,54 +611,56 @@ h1 {
   display: inline-block;
   width: 4px;
   height: 20px;
-  background: #1a1a1a;
+  background: var(--text-primary);
   border-radius: 2px;
 }
 
 /* チェックボックスグループ */
 .checkbox-group label {
-  background: #f8f8f8 !important;
-  border: 1px solid #e5e5e5 !important;
+  background: var(--checkbox-bg) !important;
+  border: 1px solid var(--border-primary) !important;
   border-radius: 12px !important;
   padding: 12px 20px !important;
   margin: 8px !important;
   transition: all 0.2s ease !important;
   cursor: pointer !important;
   display: inline-block !important;
+  color: var(--text-primary) !important;
 }
 
 .checkbox-group label:hover {
-  background: #f0f0f0 !important;
-  border-color: #d0d0d0 !important;
+  background: var(--checkbox-hover) !important;
+  border-color: var(--border-secondary) !important;
 }
 
 .checkbox-group input[type="checkbox"]:checked + label {
-  background: #1a1a1a !important;
-  color: white !important;
-  border-color: #1a1a1a !important;
+  background: var(--checkbox-checked-bg) !important;
+  color: var(--checkbox-checked-text) !important;
+  border-color: var(--checkbox-checked-bg) !important;
 }
 
 /* テキスト入力 */
 input[type="text"], textarea {
-  border: 1px solid #e5e5e5 !important;
+  border: 1px solid var(--border-primary) !important;
   border-radius: 12px !important;
   padding: 12px 16px !important;
   font-size: 14px !important;
   transition: all 0.2s ease !important;
-  background: #fafafa !important;
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
 }
 
 input[type="text"]:focus, textarea:focus {
-  border-color: #1a1a1a !important;
-  background: white !important;
+  border-color: var(--text-primary) !important;
+  background: var(--bg-secondary) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(26,26,26,0.05) !important;
+  box-shadow: 0 0 0 3px var(--focus-ring) !important;
 }
 
 /* ボタン */
 .primary-button {
-  background: #1a1a1a !important;
-  color: white !important;
+  background: var(--button-bg) !important;
+  color: var(--button-text) !important;
   border: none !important;
   border-radius: 24px !important;
   padding: 14px 32px !important;
@@ -587,12 +670,12 @@ input[type="text"]:focus, textarea:focus {
   transition: all 0.2s ease !important;
   margin: 32px auto 0 auto !important;
   display: block !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
 .primary-button:hover {
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  box-shadow: var(--shadow-hover) !important;
 }
 
 .primary-button:active {
@@ -617,21 +700,58 @@ input[type="text"]:focus, textarea:focus {
 
 /* アコーディオン */
 .accordion {
-  background: white !important;
+  background: var(--bg-primary) !important;
   border-radius: 16px !important;
-  border: 1px solid #e5e5e5 !important;
+  border: 1px solid var(--border-primary) !important;
   margin-top: 40px !important;
 }
 
 .accordion-header {
   padding: 20px 24px !important;
   font-weight: 500 !important;
-  color: #666 !important;
+  color: var(--text-secondary) !important;
   font-size: 14px !important;
 }
 
-/* レスポンシブ対応 */
-@media (max-width: 768px) {
+/* レスポンシブ対応 - モバイル */
+@media (max-width: 480px) {
+  .card-elevation {
+    padding: 20px 16px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+  }
+  
+  h1 {
+    font-size: 24px !important;
+    margin: 24px 0 32px 0 !important;
+  }
+  
+  .question-title {
+    font-size: 16px;
+  }
+  
+  .checkbox-group label {
+    display: block !important;
+    margin: 6px 0 !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+  
+  input[type="text"], textarea {
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+  }
+  
+  .primary-button {
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+}
+
+/* レスポンシブ対応 - タブレット */
+@media (min-width: 481px) and (max-width: 768px) {
   .card-elevation {
     padding: 24px 20px;
   }
@@ -641,19 +761,40 @@ input[type="text"]:focus, textarea:focus {
   }
   
   .checkbox-group label {
-    display: block !important;
-    margin: 6px 0 !important;
+    display: inline-block !important;
+    margin: 6px !important;
+    width: calc(50% - 12px) !important;
+  }
+}
+
+/* レスポンシブ対応 - 大画面 */
+@media (min-width: 1200px) {
+  .gradio-container {
+    max-width: 900px !important;
+  }
+  
+  .card-elevation {
+    padding: 40px;
   }
 }
 
 /* Gradioデフォルトスタイルの上書き */
 .gr-button {
   font-family: inherit !important;
+  background: var(--button-bg) !important;
+  color: var(--button-text) !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.gr-button:hover {
+  box-shadow: var(--shadow-hover) !important;
 }
 
 .gr-box {
   border-radius: 16px !important;
-  border-color: #e5e5e5 !important;
+  border-color: var(--border-primary) !important;
+  background: var(--bg-primary) !important;
 }
 
 .gr-form {
@@ -668,10 +809,29 @@ input[type="text"]:focus, textarea:focus {
 
 /* ラベルのスタイル */
 label.block {
-  color: #666 !important;
+  color: var(--text-secondary) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
   margin-bottom: 8px !important;
+}
+
+/* 追加のダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  /* Gradioコンポーネントの背景色調整 */
+  .gr-input-label, .gr-checkbox-label {
+    color: var(--text-primary) !important;
+  }
+  
+  .gr-box {
+    box-shadow: var(--shadow-sm) !important;
+  }
+  
+  /* プレースホルダーテキストの色 */
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-tertiary) !important;
+    opacity: 1;
+  }
 }
 """
 
@@ -750,7 +910,7 @@ with gr.Blocks(css=custom_css, title="企業文化マッチング診断") as dem
 # 使用上の注意
 with gr.Accordion("ご利用にあたって", open=False, elem_classes="accordion"):
     gr.HTML("""
-    <div style="padding: 8px; color: #666; font-size: 14px; line-height: 1.8;">
+    <div style="padding: 8px; color: var(--text-secondary); font-size: 14px; line-height: 1.8;">
         <p style="margin-bottom: 12px;">このアプリケーションは、あなたの価値観と企業文化のマッチングをAIが分析するデモンストレーションです。</p>
         <ul style="margin: 0; padding-left: 20px;">
             <li>実際の企業データは限定的であり、結果は参考値としてご利用ください</li>
