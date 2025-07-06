@@ -453,7 +453,20 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         
         @media (prefers-color-scheme: dark) {{
             .result-card > div:first-child {{
-                opacity: 0.2 !important;
+                opacity: 0.1 !important;
+                background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%) !important;
+            }}
+            
+            .result-cta-button {{
+                background: var(--button-bg) !important;
+                color: var(--button-text) !important;
+                border: 2px solid rgba(255,255,255,0.2) !important;
+                font-weight: 600 !important;
+            }}
+            
+            .result-cta-button:hover {{
+                border-color: rgba(255,255,255,0.4) !important;
+                box-shadow: var(--shadow-hover), 0 0 0 2px rgba(255,255,255,0.3) !important;
             }}
         }}
         </style>
@@ -514,41 +527,49 @@ custom_css = """
   --checkbox-checked-text: #ffffff;
 }
 
-/* ダークモード対応 */
+/* ダークモード対応 - 大幅に改善したコントラスト比 */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* ダークモードの色定義 */
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #242424;
-    --bg-tertiary: #2a2a2a;
-    --bg-gradient-start: #1f1f2e;
-    --bg-gradient-end: #2d1b2e;
+    /* ダークモードの色定義 - 高コントラスト & 視認性重視 */
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #232323;
+    --bg-gradient-start: #0a0a0f;
+    --bg-gradient-end: #0f0a0f;
     
-    --text-primary: #f0f0f0;
-    --text-secondary: #b0b0b0;
-    --text-tertiary: #808080;
-    --text-inverse: #1a1a1a;
+    /* 文字色 - 明確なコントラストを確保 */
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-tertiary: #a0a0a0;
+    --text-inverse: #000000;
     
-    --border-primary: #404040;
-    --border-secondary: #505050;
-    --border-light: rgba(255,255,255,0.08);
+    /* ボーダー - より明確な境界線 */
+    --border-primary: #3a3a3a;
+    --border-secondary: #4a4a4a;
+    --border-light: rgba(255,255,255,0.15);
     
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
-    --shadow-md: 0 2px 20px rgba(0,0,0,0.5);
-    --shadow-lg: 0 4px 30px rgba(0,0,0,0.6);
-    --shadow-hover: 0 6px 20px rgba(0,0,0,0.7);
+    /* 影 - ダークモードに適した柔らかい影 */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.6);
+    --shadow-md: 0 2px 20px rgba(0,0,0,0.8);
+    --shadow-lg: 0 4px 30px rgba(0,0,0,0.9);
+    --shadow-hover: 0 6px 20px rgba(255,255,255,0.1);
     
-    --focus-ring: rgba(255,255,255,0.1);
-    --button-bg: #f0f0f0;
-    --button-text: #1a1a1a;
+    /* フォーカス - 明確な白色リング */
+    --focus-ring: rgba(255,255,255,0.3);
     
-    --error-bg: #2a1515;
-    --error-text: #ff6b6b;
+    /* ボタン - 高コントラストで視認性向上 */
+    --button-bg: #ffffff;
+    --button-text: #000000;
     
+    /* エラー表示 - ダークモードに適した色調 */
+    --error-bg: #2a0f0f;
+    --error-text: #ff8a80;
+    
+    /* チェックボックス - 明確な視認性 */
     --checkbox-bg: #2a2a2a;
-    --checkbox-hover: #353535;
-    --checkbox-checked-bg: #f0f0f0;
-    --checkbox-checked-text: #1a1a1a;
+    --checkbox-hover: #3a3a3a;
+    --checkbox-checked-bg: #ffffff;
+    --checkbox-checked-text: #000000;
   }
 }
 
@@ -815,22 +836,91 @@ label.block {
   margin-bottom: 8px !important;
 }
 
-/* 追加のダークモード対応 */
+/* ダークモード強化 - 全コンポーネント対応 */
 @media (prefers-color-scheme: dark) {
-  /* Gradioコンポーネントの背景色調整 */
+  /* Gradioコンポーネントの完全対応 */
   .gr-input-label, .gr-checkbox-label {
     color: var(--text-primary) !important;
   }
   
   .gr-box {
     box-shadow: var(--shadow-sm) !important;
+    background: var(--bg-primary) !important;
   }
   
-  /* プレースホルダーテキストの色 */
+  /* プレースホルダーテキストの明確化 */
   input::placeholder,
   textarea::placeholder {
     color: var(--text-tertiary) !important;
     opacity: 1;
+  }
+  
+  /* タイトルの強調 */
+  h1, h2, h3 {
+    color: var(--text-primary) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  /* Gradio内部コンポーネントの強制スタイル */
+  .gr-form, .gr-panel, .gr-block {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+  }
+  
+  /* チェックボックスラベルの視認性向上 */
+  .checkbox-group label {
+    border: 2px solid var(--border-primary) !important;
+    background: var(--checkbox-bg) !important;
+    color: var(--text-primary) !important;
+  }
+  
+  .checkbox-group label:hover {
+    border-color: var(--border-secondary) !important;
+    background: var(--checkbox-hover) !important;
+  }
+  
+  .checkbox-group input[type="checkbox"]:checked + label {
+    background: var(--checkbox-checked-bg) !important;
+    color: var(--checkbox-checked-text) !important;
+    border-color: var(--checkbox-checked-bg) !important;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.2) !important;
+  }
+  
+  /* ボタンの視認性強化 */
+  .gr-button, .primary-button {
+    background: var(--button-bg) !important;
+    color: var(--button-text) !important;
+    border: 2px solid transparent !important;
+    font-weight: 600 !important;
+  }
+  
+  .gr-button:hover, .primary-button:hover {
+    box-shadow: var(--shadow-hover), 0 0 0 2px rgba(255,255,255,0.3) !important;
+  }
+  
+  /* 入力フィールドの視認性向上 */
+  input[type="text"], textarea {
+    background: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border: 2px solid var(--border-primary) !important;
+  }
+  
+  input[type="text"]:focus, textarea:focus {
+    background: var(--bg-secondary) !important;
+    border-color: var(--text-primary) !important;
+    box-shadow: 0 0 0 3px var(--focus-ring) !important;
+  }
+  
+  /* アコーディオンの改善 */
+  .accordion {
+    background: var(--bg-primary) !important;
+    border: 2px solid var(--border-primary) !important;
+  }
+  
+  /* 結果表示の背景グラデーション調整 */
+  .result-card > div:first-child {
+    opacity: 0.1 !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%) !important;
   }
 }
 """
