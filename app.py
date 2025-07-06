@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""app.py - クリーンモダンデザインの企業文化マッチングアプリ (Render用に最適化 + ダークモード対応)"""
+"""app.py - クリーンモダンデザインの企業文化マッチングアプリ (Render用に最適化 + 改善されたダークモード対応)"""
 
 import pandas as pd
 import ast
@@ -470,7 +470,7 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         """
         return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary")
 
-# CSS定義（ダークモード対応済みクリーンモダンスタイル）
+# CSS定義（改善されたダークモード対応済みクリーンモダンスタイル）
 custom_css = """
 
 /* CSS変数でテーマカラーを定義 */
@@ -490,41 +490,41 @@ custom_css = """
   --gradient-bg: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%);
 }
 
-/* ダークモード用のCSS変数 */
+/* ダークモード用のCSS変数（より柔らかい色調） */
 [data-theme="dark"], 
 .dark,
 body.dark {
-  --bg-primary: #1f1f1f;
-  --bg-secondary: #2a2a2a;
-  --bg-tertiary: #333333;
+  --bg-primary: #333333;
+  --bg-secondary: #3a3a3a;
+  --bg-tertiary: #404040;
   --text-primary: #ffffff;
   --text-secondary: #cccccc;
   --text-tertiary: #999999;
-  --border-primary: #404040;
-  --border-secondary: #505050;
+  --border-primary: #555555;
+  --border-secondary: #666666;
   --shadow-light: rgba(0,0,0,0.3);
   --shadow-medium: rgba(0,0,0,0.4);
   --shadow-heavy: rgba(0,0,0,0.5);
   --accent-color: #ffffff;
-  --gradient-bg: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  --gradient-bg: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
 }
 
-/* メディアクエリでシステムのダークモード設定を検出 */
+/* メディアクエリでシステムのダークモード設定を検出（より柔らかい色調） */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-primary: #1f1f1f;
-    --bg-secondary: #2a2a2a;
-    --bg-tertiary: #333333;
+    --bg-primary: #333333;
+    --bg-secondary: #3a3a3a;
+    --bg-tertiary: #404040;
     --text-primary: #ffffff;
     --text-secondary: #cccccc;
     --text-tertiary: #999999;
-    --border-primary: #404040;
-    --border-secondary: #505050;
+    --border-primary: #555555;
+    --border-secondary: #666666;
     --shadow-light: rgba(0,0,0,0.3);
     --shadow-medium: rgba(0,0,0,0.4);
     --shadow-heavy: rgba(0,0,0,0.5);
     --accent-color: #ffffff;
-    --gradient-bg: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    --gradient-bg: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
   }
 }
 
@@ -544,7 +544,7 @@ body {
   background: transparent !important;
 }
 
-/* カードスタイル（Elevation風） */
+/* カードスタイル（統一された背景色） */
 .card-elevation {
   background: var(--bg-primary) !important;
   border-radius: 20px;
@@ -570,7 +570,7 @@ h1 {
   letter-spacing: 0.5px;
 }
 
-/* 質問タイトル */
+/* 質問タイトル（紺色バー削除、シンプルアクセント） */
 .question-title {
   font-size: 18px;
   font-weight: 500;
@@ -579,6 +579,9 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .question-title:before {
