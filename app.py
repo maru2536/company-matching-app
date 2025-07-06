@@ -470,15 +470,38 @@ def run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
         """
         return f"エラーが発生しました: {str(e)}", error_html, gr.update(visible=True), gr.update(value="再試行", variant="primary")
 
-# CSS定義（クリーンモダンスタイル - 強制ライトモード）
+# CSS定義（クリーンモダンスタイル - 完全ダークモード無効化）
 custom_css = """
-/* 強制ライトモード設定 - ダークモード無効化 */
-* {
+/* 超強力ダークモード無効化 - 全レベルで制御 */
+html, body, #root, .gradio-container, .app, .main {
+  color-scheme: light !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+*, *::before, *::after {
   color-scheme: light !important;
 }
 
-html {
+/* Gradio特有のダークモード無効化 */
+.dark, [data-theme="dark"], [class*="dark"] {
   color-scheme: light !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+/* システムレベルでのダークモード上書き */
+@media (prefers-color-scheme: dark) {
+  *, *::before, *::after {
+    color-scheme: light !important;
+    background-color: unset !important;
+    color: unset !important;
+  }
+  
+  html, body {
+    background: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%) !important;
+    color: #1a1a1a !important;
+  }
 }
 
 /* CSS変数定義 - ライトモード固定 */
@@ -780,10 +803,123 @@ label.block {
   margin-bottom: 8px !important;
 }
 
+/* 超強力Gradio要素固定スタイル */
+.gr-button, .gr-textbox, .gr-checkbox, .gr-radio, .gr-dropdown {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border-color: #e5e5e5 !important;
+}
+
+.gr-button {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+.gr-textbox input, .gr-textbox textarea {
+  background: #fafafa !important;
+  color: #1a1a1a !important;
+  border: 1px solid #e5e5e5 !important;
+}
+
+.gr-checkbox-group .gr-checkbox {
+  background: #f8f8f8 !important;
+  color: #1a1a1a !important;
+}
+
+/* 全要素に対する超強力スタイル適用 */
+@media (prefers-color-scheme: dark) {
+  .gradio-container, .gradio-container * {
+    background-color: inherit !important;
+    color: inherit !important;
+  }
+  
+  .gr-button {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+  }
+  
+  .gr-textbox, .gr-textbox input, .gr-textbox textarea {
+    background: #fafafa !important;
+    color: #1a1a1a !important;
+    border-color: #e5e5e5 !important;
+  }
+  
+  .gr-checkbox-group label {
+    background: #f8f8f8 !important;
+    color: #1a1a1a !important;
+    border-color: #e5e5e5 !important;
+  }
+  
+  .gr-box, .gr-form, .gr-panel {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+  }
+  
+  .gr-accordion {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    border-color: #e5e5e5 !important;
+  }
+}
+
 """
 
 # UI定義
-with gr.Blocks(css=custom_css, title="企業文化マッチング診断") as demo:
+with gr.Blocks(css=custom_css, title="企業文化マッチング診断", js="""
+function() {
+    // 超強力JavaScript - ダークモード完全無効化
+    function forceeLightMode() {
+        // HTML要素のcolor-schemeを強制的にlight設定
+        document.documentElement.style.setProperty('color-scheme', 'light', 'important');
+        document.body.style.setProperty('color-scheme', 'light', 'important');
+        
+        // 全要素に対してライトモード強制
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+            el.style.setProperty('color-scheme', 'light', 'important');
+            
+            // ダークモード関連のクラスを削除
+            el.classList.remove('dark');
+            if (el.getAttribute('data-theme') === 'dark') {
+                el.setAttribute('data-theme', 'light');
+            }
+        });
+        
+        // Gradio特有の要素に対する強制スタイル適用
+        const gradioElements = document.querySelectorAll('.gradio-container, .gr-button, .gr-textbox, .gr-checkbox, .gr-radio, .gr-dropdown');
+        gradioElements.forEach(el => {
+            if (el.classList.contains('gr-button')) {
+                el.style.setProperty('background', '#1a1a1a', 'important');
+                el.style.setProperty('color', '#ffffff', 'important');
+            } else {
+                el.style.setProperty('background', '#ffffff', 'important');
+                el.style.setProperty('color', '#1a1a1a', 'important');
+            }
+        });
+        
+        // body背景を強制設定
+        document.body.style.setProperty('background', 'linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%)', 'important');
+        document.body.style.setProperty('color', '#1a1a1a', 'important');
+    }
+    
+    // 初回実行
+    forceeLightMode();
+    
+    // 定期的に実行（ダークモード設定の変更を監視）
+    setInterval(forceeLightMode, 100);
+    
+    // DOM変更を監視して即座に適用
+    const observer = new MutationObserver(forceeLightMode);
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true, 
+        attributes: true,
+        attributeFilter: ['class', 'data-theme', 'style']
+    });
+    
+    return null;
+}
+""") as demo:
     gr.HTML("<h1>企業文化マッチング診断</h1>")
     
     with gr.Group(elem_classes="card-elevation"):
