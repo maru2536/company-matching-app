@@ -613,7 +613,7 @@ custom_css = """
 /* ベース設定 */
 body {
   font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f5f5f5 !important;
+  background: white !important;
   min-height: 100vh;
   margin: 0;
   padding: 0;
