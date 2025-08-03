@@ -655,10 +655,9 @@ body {
 
 /* メインカード */
 .main-card {
-  background: var(--bg-white);
+  background: transparent;
   border-radius: 20px;
   padding: 32px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   margin-bottom: 24px;
 }
 
@@ -667,8 +666,16 @@ body {
   color: black;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: inline-block;
+}
+
+/* グラデーションライン */
+.gradient-line {
+  height: 2px;
+  background: linear-gradient(to right, #FF69B4 0%, #00C5FF 100%);
+  margin: 8px 0 16px 0;
+  border-radius: 1px;
 }
 
 .question-subtitle {
@@ -685,9 +692,14 @@ body {
   margin-bottom: 24px;
 }
 
+/* チェックボックス自体を非表示にする */
+.checkbox-group input[type="checkbox"] {
+  display: none;
+}
+
 .checkbox-group label {
   background: var(--bg-white);
-  border: 2px solid #e8e8e8;
+  border: 2px solid #0075B8;
   border-radius: 50px;
   padding: 12px 28px;
   transition: all 0.3s ease;
@@ -702,6 +714,8 @@ body {
 
 .checkbox-group label:hover {
   border-color: #00C5FF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 117, 184, 0.2);
 }
 
 .checkbox-group label.selected,
@@ -716,7 +730,7 @@ body {
 .text-input textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e8e8e8;
+  border: 2px solid #0075B8;
   border-radius: 12px;
   font-size: 14px;
   background: transparent;
@@ -725,7 +739,7 @@ body {
 
 .text-input input[type="text"]:focus,
 .text-input textarea:focus {
-  border-color: var(--primary-color);
+  border-color: #00C5FF;
   background: white;
   outline: none;
 }
@@ -878,6 +892,7 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
         # 質問1
         with gr.Group(elem_classes="main-card"):
             gr.HTML('<div class="question-title">Q1. 働く上で、自分が大切にしたいことは？</div>')
+            gr.HTML('<div class="gradient-line"></div>')
             gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
             q1_choice = gr.CheckboxGroup(
                 ["挑戦", "会社の安定", "自己成長", "柔軟な働き方", "プライベートの充実", "その他"],
@@ -896,6 +911,7 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
         # 質問2
         with gr.Group(elem_classes="main-card"):
             gr.HTML('<div class="question-title">Q2. 理想の働き方</div>')
+            gr.HTML('<div class="gradient-line"></div>')
             gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
             q2_choice = gr.CheckboxGroup(
                 ["フルリモートワーク", "出社", "リモートワークと出社のハイブリッド"],
@@ -911,6 +927,7 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
         # 質問3
         with gr.Group(elem_classes="main-card"):
             gr.HTML('<div class="question-title">Q3. 理想のチーム環境</div>')
+            gr.HTML('<div class="gradient-line"></div>')
             gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
             q3_choice = gr.CheckboxGroup(
                 ["裁量権大", "多様性", "強いリーダーシップ", "フラットな関係性"],
@@ -926,6 +943,7 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
         # 質問4
         with gr.Group(elem_classes="main-card"):
             gr.HTML('<div class="question-title">Q4. 求める環境・制度</div>')
+            gr.HTML('<div class="gradient-line"></div>')
             gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
             q4_choice = gr.CheckboxGroup(
                 ["研修が充実", "OJTがある", "海外研修", "自己学習支援", "副業OK"],
@@ -941,6 +959,7 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
         # 質問5
         with gr.Group(elem_classes="main-card"):
             gr.HTML('<div class="question-title">Q5. その他重視するポイント</div>')
+            gr.HTML('<div class="gradient-line"></div>')
             gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
             q5_choice = gr.CheckboxGroup(
                 ["高インセンティブ", "勤務地", "フレックス", "スピード感"],
