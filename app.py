@@ -603,7 +603,7 @@ custom_css = """
 /* CSS変数 */
 :root {
   --primary-gradient: linear-gradient(135deg, #FFE5EC 0%, #E8F5FF 100%);
-  --primary-color: #5b9bd5;
+  --primary-color: #00C5FF;
   --text-primary: #2c3e50;
   --text-secondary: #7f8c8d;
   --bg-white: #ffffff;
@@ -664,10 +664,7 @@ body {
 
 /* 質問タイトル */
 .question-title {
-  background: var(--primary-color);
-  color: white;
-  padding: 8px 20px;
-  border-radius: 20px;
+  color: black;
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 16px;
@@ -704,15 +701,15 @@ body {
 }
 
 .checkbox-group label:hover {
-  border-color: var(--primary-color);
+  border-color: #00C5FF;
   background: #f0f8ff;
 }
 
 .checkbox-group label.selected,
 .checkbox-group input[type="checkbox"]:checked + label {
-  background: var(--primary-color);
+  background: #00C5FF;
   color: white;
-  border-color: var(--primary-color);
+  border-color: #00C5FF;
 }
 
 /* テキスト入力 */
@@ -750,7 +747,7 @@ body {
 
 /* 次へボタン */
 .primary-button {
-  background: var(--primary-color) !important;
+  background: #00C5FF !important;
   color: white !important;
   border: none !important;
   border-radius: 50px !important;
@@ -761,12 +758,12 @@ body {
   transition: all 0.3s ease !important;
   display: block !important;
   margin: 32px auto 0 auto !important;
-  box-shadow: 0 4px 15px rgba(91, 155, 213, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(0, 197, 255, 0.3) !important;
 }
 
 .primary-button:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(91, 155, 213, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(0, 197, 255, 0.4) !important;
 }
 
 /* Gradioデフォルトスタイルの上書き */
