@@ -659,6 +659,7 @@ body {
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 /* 質問タイトル */
@@ -800,6 +801,53 @@ body {
   font-family: 'Noto Sans JP', sans-serif !important;
 }
 
+/* グレー背景を完全に排除する追加スタイル */
+.gr-panel {
+  background: transparent !important;
+}
+
+/* Gradioの背景色を強制的に透明化 */
+.gradio-container .gr-box,
+.gradio-container .gr-form,
+.gradio-container .gr-panel,
+.gradio-container .block,
+.gradio-container .wrap {
+  background: transparent !important;
+}
+
+/* 質問タイトル部分の背景 */
+.main-card > div:first-child {
+  background: white !important;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+/* グレーのスタイルを持つ要素を特定して白に変更 */
+div[style*="background-color: rgb(243, 244, 246)"],
+div[style*="background-color: rgb(245, 245, 245)"],
+div[style*="background: rgb(243, 244, 246)"],
+div[style*="background: rgb(245, 245, 245)"] {
+  background: white !important;
+}
+
+/* Gradioが使用する特定のグレー色を排除 */
+[style*="#f3f4f6"],
+[style*="#f5f5f5"],
+[style*="#e5e7eb"] {
+  background-color: white !important;
+}
+
+/* 入力フィールドの背景も確実に白に */
+input, textarea, select {
+  background-color: white !important;
+}
+
+/* その他セクションも白背景を強制 */
+.other-input-section {
+  background-color: white !important;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 640px) {
   .gradio-container {
@@ -893,9 +941,13 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
     with gr.Group(visible=True) as question_form:
         # 質問1
         with gr.Group(elem_classes="main-card"):
-            gr.HTML('<div class="question-title">Q1. 働く上で、自分が大切にしたいことは？</div>')
-            gr.HTML('<div class="gradient-line"></div>')
-            gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
+            gr.HTML('''
+                <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div class="question-title">Q1. 働く上で、自分が大切にしたいことは？</div>
+                    <div class="gradient-line"></div>
+                    <p class="question-subtitle">※複数選択OK</p>
+                </div>
+            ''')
             q1_choice = gr.CheckboxGroup(
                 ["挑戦", "会社の安定", "自己成長", "柔軟な働き方", "プライベートの充実", "その他"],
                 label="",
@@ -912,9 +964,13 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
 
         # 質問2
         with gr.Group(elem_classes="main-card"):
-            gr.HTML('<div class="question-title">Q2. 理想の働き方</div>')
-            gr.HTML('<div class="gradient-line"></div>')
-            gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
+            gr.HTML('''
+                <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div class="question-title">Q2. 理想の働き方</div>
+                    <div class="gradient-line"></div>
+                    <p class="question-subtitle">※複数選択OK</p>
+                </div>
+            ''')
             q2_choice = gr.CheckboxGroup(
                 ["フルリモートワーク", "出社", "リモートワークと出社のハイブリッド"],
                 label="",
@@ -928,9 +984,13 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
 
         # 質問3
         with gr.Group(elem_classes="main-card"):
-            gr.HTML('<div class="question-title">Q3. 理想のチーム環境</div>')
-            gr.HTML('<div class="gradient-line"></div>')
-            gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
+            gr.HTML('''
+                <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div class="question-title">Q3. 理想のチーム環境</div>
+                    <div class="gradient-line"></div>
+                    <p class="question-subtitle">※複数選択OK</p>
+                </div>
+            ''')
             q3_choice = gr.CheckboxGroup(
                 ["裁量権大", "多様性", "強いリーダーシップ", "フラットな関係性"],
                 label="",
@@ -944,9 +1004,13 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
 
         # 質問4
         with gr.Group(elem_classes="main-card"):
-            gr.HTML('<div class="question-title">Q4. 求める環境・制度</div>')
-            gr.HTML('<div class="gradient-line"></div>')
-            gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
+            gr.HTML('''
+                <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div class="question-title">Q4. 求める環境・制度</div>
+                    <div class="gradient-line"></div>
+                    <p class="question-subtitle">※複数選択OK</p>
+                </div>
+            ''')
             q4_choice = gr.CheckboxGroup(
                 ["研修が充実", "OJTがある", "海外研修", "自己学習支援", "副業OK"],
                 label="",
@@ -960,9 +1024,13 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
 
         # 質問5
         with gr.Group(elem_classes="main-card"):
-            gr.HTML('<div class="question-title">Q5. その他重視するポイント</div>')
-            gr.HTML('<div class="gradient-line"></div>')
-            gr.HTML('<p class="question-subtitle">※複数選択OK</p>')
+            gr.HTML('''
+                <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div class="question-title">Q5. その他重視するポイント</div>
+                    <div class="gradient-line"></div>
+                    <p class="question-subtitle">※複数選択OK</p>
+                </div>
+            ''')
             q5_choice = gr.CheckboxGroup(
                 ["高インセンティブ", "勤務地", "フレックス", "スピード感"],
                 label="",
@@ -1033,6 +1101,26 @@ with gr.Accordion("ご利用にあたって", open=False):
             </ul>
         </div>
     """)
+
+# JavaScriptでグレー背景を強制的に白に変更
+demo.load(
+    fn=None,
+    js="""
+    () => {
+        // すべてのグレー背景を白に変更
+        setTimeout(() => {
+            document.querySelectorAll('*').forEach(el => {
+                const style = window.getComputedStyle(el);
+                if (style.backgroundColor === 'rgb(243, 244, 246)' || 
+                    style.backgroundColor === 'rgb(245, 245, 245)' ||
+                    style.backgroundColor === 'rgb(229, 231, 235)') {
+                    el.style.backgroundColor = 'white';
+                }
+            });
+        }, 100);
+    }
+    """
+)
 
 # アプリ起動
 if __name__ == "__main__":
