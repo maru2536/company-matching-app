@@ -312,25 +312,37 @@ def show_loading_screen():
     character_images = []
     character_files = ["mascot_char_01.png.png", "mascot_char_02.png.png", "mascot_char_03.png.png", "mascot_char_04.png.png"]
     
+    # 現在のディレクトリを取得
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
     for char_file in character_files:
         try:
-            if os.path.exists(char_file):
-                logger.info(f"Loading character image: {char_file}")
-                with open(char_file, "rb") as img_file:
+            # 絶対パスで画像ファイルを探す
+            file_path = os.path.join(current_dir, char_file)
+            logger.info(f"Checking for character image at: {file_path}")
+            
+            if os.path.exists(file_path):
+                logger.info(f"Loading character image: {file_path}")
+                with open(file_path, "rb") as img_file:
                     img_base64 = base64.b64encode(img_file.read()).decode()
                     character_images.append(f"data:image/png;base64,{img_base64}")
                     logger.info(f"Successfully loaded {char_file}")
             else:
                 # 画像がない場合は絵文字で代替
-                logger.warning(f"Character image not found: {char_file}")
+                logger.warning(f"Character image not found: {file_path}")
                 character_images.append("")
         except Exception as e:
             logger.error(f"Error loading character image {char_file}: {str(e)}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
             character_images.append("")
     
     # JavaScriptに画像データを渡す
     char_images_js = json.dumps(character_images)
     logger.info(f"Character images loaded: {len([img for img in character_images if img != ''])} out of {len(character_images)}")
+    
+    # 画像が一つも読み込めなかった場合の警告
+    if all(img == "" for img in character_images):
+        logger.error("WARNING: No character images were loaded successfully!")
     
     loading_html = f"""
     <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
@@ -345,10 +357,8 @@ def show_loading_screen():
             <div style="position: relative; height: 200px; margin: 40px 0;">
                 <!-- 移動するキャラクター -->
                 <div id="character-container" style="position: absolute; bottom: 0; right: -100px; width: 100px; height: 100px; animation: moveLeft 8s linear infinite;">
-                    <div id="character-sprite" style="width: 100px; height: 100px; background-size: contain; background-repeat: no-repeat; background-position: center; display: flex; align-items: center; justify-content: center;">
-                        <!-- デフォルトキャラクター（画像がない場合） -->
-                        <div id="default-emoji" style="font-size: 60px;">🤖</div>
-                    </div>
+                    <img id="character-image" src="" style="width: 100px; height: 100px; object-fit: contain; display: none;">
+                    <div id="character-emoji" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 60px;">🤖</div>
                 </div>
             </div>
             
@@ -402,30 +412,30 @@ def show_loading_screen():
         
         console.log('Character images loaded:', characterImages);
         console.log('Number of valid images:', characterImages.filter(img => img !== '').length);
+        console.log('First image data (truncated):', characterImages[0] ? characterImages[0].substring(0, 100) : 'No image');
         
         let currentIndex = 0;
-        const characterEl = document.getElementById('character-sprite');
+        const imageEl = document.getElementById('character-image');
+        const emojiEl = document.getElementById('character-emoji');
         
         function updateCharacter() {{
-            if (characterEl) {{
-                const defaultEmoji = document.getElementById('default-emoji');
-                if (characterImages[currentIndex] && characterImages[currentIndex] !== "") {{
-                    // 画像がある場合
-                    characterEl.style.backgroundImage = `url('${{characterImages[currentIndex]}}')`;
-                    if (defaultEmoji) {{
-                        defaultEmoji.style.display = 'none';
-                    }}
-                }} else {{
-                    // 画像がない場合は絵文字を表示
-                    characterEl.style.backgroundImage = 'none';
-                    if (defaultEmoji) {{
-                        defaultEmoji.style.display = 'block';
-                        defaultEmoji.innerHTML = characterEmojis[currentIndex % characterEmojis.length];
-                    }}
-                }}
-                
-                currentIndex = (currentIndex + 1) % characterImages.length;
+            console.log('updateCharacter called, currentIndex:', currentIndex);
+            
+            if (characterImages[currentIndex] && characterImages[currentIndex] !== "") {{
+                // 画像がある場合
+                console.log('Showing image for index:', currentIndex);
+                imageEl.src = characterImages[currentIndex];
+                imageEl.style.display = 'block';
+                emojiEl.style.display = 'none';
+            }} else {{
+                // 画像がない場合は絵文字を表示
+                console.log('Showing emoji for index:', currentIndex);
+                imageEl.style.display = 'none';
+                emojiEl.style.display = 'flex';
+                emojiEl.innerHTML = characterEmojis[currentIndex % characterEmojis.length];
             }}
+            
+            currentIndex = (currentIndex + 1) % characterImages.length;
         }}
         
         // 初期表示
