@@ -655,7 +655,7 @@ body {
 
 /* メインカード */
 .main-card {
-  background: transparent;
+  background: white;
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 24px;
