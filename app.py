@@ -315,11 +315,14 @@ def show_loading_screen():
     for char_file in character_files:
         try:
             if os.path.exists(char_file):
+                logger.info(f"Loading character image: {char_file}")
                 with open(char_file, "rb") as img_file:
                     img_base64 = base64.b64encode(img_file.read()).decode()
                     character_images.append(f"data:image/png;base64,{img_base64}")
+                    logger.info(f"Successfully loaded {char_file}")
             else:
                 # 画像がない場合は絵文字で代替
+                logger.warning(f"Character image not found: {char_file}")
                 character_images.append("")
         except Exception as e:
             logger.error(f"Error loading character image {char_file}: {str(e)}")
@@ -327,6 +330,7 @@ def show_loading_screen():
     
     # JavaScriptに画像データを渡す
     char_images_js = json.dumps(character_images)
+    logger.info(f"Character images loaded: {len([img for img in character_images if img != ''])} out of {len(character_images)}")
     
     loading_html = f"""
     <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
@@ -341,9 +345,9 @@ def show_loading_screen():
             <div style="position: relative; height: 200px; margin: 40px 0;">
                 <!-- 移動するキャラクター -->
                 <div id="character-container" style="position: absolute; bottom: 0; right: -100px; width: 100px; height: 100px; animation: moveLeft 8s linear infinite;">
-                    <div id="character-sprite" style="width: 100px; height: 100px; background-size: contain; background-repeat: no-repeat; background-position: center;">
+                    <div id="character-sprite" style="width: 100px; height: 100px; background-size: contain; background-repeat: no-repeat; background-position: center; display: flex; align-items: center; justify-content: center;">
                         <!-- デフォルトキャラクター（画像がない場合） -->
-                        <div style="font-size: 60px;">🤖</div>
+                        <div id="default-emoji" style="font-size: 60px;">🤖</div>
                     </div>
                 </div>
             </div>
@@ -396,19 +400,28 @@ def show_loading_screen():
         const characterImages = {char_images_js};
         const characterEmojis = ['🏃', '📱', '🥽', '🎧'];
         
+        console.log('Character images loaded:', characterImages);
+        console.log('Number of valid images:', characterImages.filter(img => img !== '').length);
+        
         let currentIndex = 0;
         const characterEl = document.getElementById('character-sprite');
         
         function updateCharacter() {{
             if (characterEl) {{
+                const defaultEmoji = document.getElementById('default-emoji');
                 if (characterImages[currentIndex] && characterImages[currentIndex] !== "") {{
                     // 画像がある場合
                     characterEl.style.backgroundImage = `url('${{characterImages[currentIndex]}}')`;
-                    characterEl.innerHTML = '';
+                    if (defaultEmoji) {{
+                        defaultEmoji.style.display = 'none';
+                    }}
                 }} else {{
                     // 画像がない場合は絵文字を表示
                     characterEl.style.backgroundImage = 'none';
-                    characterEl.innerHTML = `<div style="font-size: 60px;">${{characterEmojis[currentIndex]}}</div>`;
+                    if (defaultEmoji) {{
+                        defaultEmoji.style.display = 'block';
+                        defaultEmoji.innerHTML = characterEmojis[currentIndex % characterEmojis.length];
+                    }}
                 }}
                 
                 currentIndex = (currentIndex + 1) % characterImages.length;
