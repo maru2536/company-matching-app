@@ -310,7 +310,7 @@ def show_loading_screen():
     
     # キャラクター画像を読み込んでBase64エンコード
     character_images = []
-    character_files = ["mascot_char_01.png", "mascot_char_02.png", "mascot_char_03.png", "mascot_char_04.png"]
+    character_files = ["mascot_char_01.png.png", "mascot_char_02.png.png", "mascot_char_03.png.png", "mascot_char_04.png.png"]
     
     for char_file in character_files:
         try:
@@ -956,11 +956,11 @@ with gr.Blocks(css=custom_css, title="ワークライフシュミレーター") 
         time.sleep(3)
         
         # 実際の処理を実行
-        result = run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
-                        q4_choice, q4_text, q5_choice, q5_text)
+        summary, result_html, results_visible, btn_update = run_app(q1_choice, q1_text, q2_choice, q2_text, q3_choice, q3_text,
+                                                                    q4_choice, q4_text, q5_choice, q5_text)
         
         # 結果を返す
-        yield result
+        yield summary, result_html, results_visible, btn_update, gr.update(visible=False)
 
     # イベントハンドラー
     next_btn.click(
