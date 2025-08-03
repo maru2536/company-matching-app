@@ -733,7 +733,7 @@ body {
   border: 2px solid #0075B8;
   border-radius: 12px;
   font-size: 14px;
-  background: transparent;
+  background: white;
   transition: all 0.3s ease;
 }
 
@@ -747,8 +747,10 @@ body {
 /* その他入力セクション */
 .other-input-section {
   margin-top: 20px;
-  padding-top: 20px;
+  padding: 20px;
   border-top: 1px solid var(--border-light);
+  background: white;
+  border-radius: 12px;
 }
 
 .other-input-label {
