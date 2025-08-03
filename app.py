@@ -702,7 +702,6 @@ body {
 
 .checkbox-group label:hover {
   border-color: #00C5FF;
-  background: #f0f8ff;
 }
 
 .checkbox-group label.selected,
@@ -720,7 +719,7 @@ body {
   border: 2px solid #e8e8e8;
   border-radius: 12px;
   font-size: 14px;
-  background: #f8f9fa;
+  background: transparent;
   transition: all 0.3s ease;
 }
 
